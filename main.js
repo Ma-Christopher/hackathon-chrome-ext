@@ -50,25 +50,15 @@ body.addEventListener("keyup", event => {
 });
 
 function moveLink(event) {
-  console.log('attempted to move link');
   const link = event.srcElement;
   link.addEventListener("transitionend", resetPos);
-  let xChange;
-  let yChange;
 
-  if (Math.random() > .5)
-    xChange = Math.round(Math.random() * 101 + 150);
-  else
-    xChange = Math.round(Math.random() * -101 - 150);
-
-  if (Math.random() > .5) 
-    yChange = Math.round(Math.random() * 101 + 150);
-  else
-    yChange = Math.round(Math.random() * -101 - 150);
-
-  let degChange = Math.round(Math.random() * -721 + 360);
+  const xChange = Math.round(Math.random() * -601 + 300);
+  const yChange = Math.round(Math.random() * -601 + 300);
+  const degChange = Math.round(Math.random() * -721 + 360);
 
   link.classList.add('moveAway');
+  console.log('random coordinates', xChange, yChange, degChange);
   link.style.transform = `translate(${xChange}px, ${yChange}px) rotate(${degChange}deg)`;
 }
 
@@ -77,6 +67,13 @@ function resetPos(event) {
   link.classList.remove('moveAway');
   link.classList.add('moveBack');
   link.style.transform = 'none';
+  link.removeEventListener("transitionend", resetPos);
+  link.addEventListener("transitionend", finishReset);
+}
+
+function finishReset(event) {
+  const link = event.srcElement;
+  link.classList.remove('moveBack');
 }
 
 function trollDance() {
@@ -105,8 +102,7 @@ function playSound(type) {
     "https://www.pacdv.com/sounds/fart-sounds/fart-7.mp3",
     "https://www.pacdv.com/sounds/fart-sounds/fart-8.wav"],
     //burps
-    ["https://www.pacdv.com/sounds/people_sound_effects/burp-1.wav",
-    "http://netexpert.hu/~estevez/hangok/PEOPLE/MISC/BELCH03.WAV"],
+    ["https://www.pacdv.com/sounds/people_sound_effects/burp-1.wav"],
     //laughs
     ["https://www.pacdv.com/sounds/people_sound_effects/laugh_1.wav",
     "https://www.pacdv.com/sounds/people_sound_effects/laugh_2.wav",
