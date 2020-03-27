@@ -1,7 +1,9 @@
-a {
+.moveBack {
+  display: inline-block;
   transition: transform 3s linear;
 }
 
 .moveAway {
+  display: inline-block;
   transition: transform 1s cubic-bezier(0, 0.55, 0.45, 1);
 }

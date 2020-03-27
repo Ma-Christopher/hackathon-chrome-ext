@@ -4,19 +4,19 @@ const inputs = document.querySelectorAll("input");
 const links = document.querySelectorAll("a");
 const body = document.querySelector("body");
 
+let linksToggle = false;
+
 const audio = document.createElement('audio');
 let isPlaying = false;
 audio.addEventListener('ended', function() {
   isPlaying = false;
 });
-console.log('body', body);
 body.appendChild(audio);
 
 //THIS WAS BREAKING THINGS
 //inputs.forEach(input => input.addEventListener("click", playSound("fart")));
 
-links.forEach(link => link.addEventListener("mouseenter", (e) => moveLink(e)));
-links.forEach(link => link.addEventListener("transitionend", (e) => resetPos(e)));
+//links.forEach(link => link.addEventListener("mouseenter", (e) => moveLink(e)));
 
 body.addEventListener("keydown", event => {
   if (event.keyCode === 70) {
@@ -25,35 +25,42 @@ body.addEventListener("keydown", event => {
     playSound("burp");
   } else if (event.keyCode === 76) {
     playSound("laugh");
+  } else if (event.keyCode === 65) {
+    if (!linksToggle) {
+      linksToggle = true;
+      links.forEach(link => link.addEventListener("mouseenter", moveLink));
+    } else {
+      links.forEach(link => link.removeEventListener("mouseenter", moveLink));
+      linksToggle = false;
+    }
   }
 });
 
 function moveLink(event) {
   console.log('attempted to move link');
   const link = event.srcElement;
-  console.log('style', link.style);
+  link.addEventListener("transitionend", resetPos);
   let xChange;
   let yChange;
+
   if (Math.random() > .5)
-    xChange = Math.round(Math.random() * 101 + 50);
+    xChange = Math.round(Math.random() * 101 + 100);
   else
-    xChange = Math.round(Math.random() * -101 - 50);
+    xChange = Math.round(Math.random() * -101 - 100);
 
   if (Math.random() > .5) 
-    yChange = Math.round(Math.random() * 101 + 50);
+    yChange = Math.round(Math.random() * 101 + 100);
   else
-    yChange = Math.round(Math.random() * -101 - 50);
+    yChange = Math.round(Math.random() * -101 - 100);
 
-  console.log('randomly generated', xChange, yChange);
-  console.log(link.style.transform);
   link.classList.add('moveAway');
   link.style.transform = `translate(${xChange}px, ${yChange}px)`;
-  console.log(`translate(${xChange}px, ${yChange}px)`);
 }
 
 function resetPos(event) {
   const link = event.srcElement;
   link.classList.remove('moveAway');
+  link.classList.add('moveBack');
   link.style.transform = ``;
 }
 
@@ -91,7 +98,6 @@ function playSound(type) {
     const src = sounds[soundMap[type]][random];
     audio.volume = 1.0;
     audio.src = src;
-    console.log('play!')
     isPlaying = true;
     audio.autoplay = true;
   }
