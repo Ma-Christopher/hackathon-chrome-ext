@@ -27,9 +27,11 @@ body.addEventListener("keydown", event => {
     playSound("laugh");
   } else if (event.keyCode === 65) {
     if (!linksToggle) {
+      console.log("runaway links is now ON!");
       linksToggle = true;
       links.forEach(link => link.addEventListener("mouseenter", moveLink));
     } else {
+      console.log("runaway links is now OFF!");
       links.forEach(link => link.removeEventListener("mouseenter", moveLink));
       linksToggle = false;
     }
@@ -44,14 +46,14 @@ function moveLink(event) {
   let yChange;
 
   if (Math.random() > .5)
-    xChange = Math.round(Math.random() * 101 + 100);
+    xChange = Math.round(Math.random() * 101 + 150);
   else
-    xChange = Math.round(Math.random() * -101 - 100);
+    xChange = Math.round(Math.random() * -101 - 150);
 
   if (Math.random() > .5) 
-    yChange = Math.round(Math.random() * 101 + 100);
+    yChange = Math.round(Math.random() * 101 + 150);
   else
-    yChange = Math.round(Math.random() * -101 - 100);
+    yChange = Math.round(Math.random() * -101 - 150);
 
   link.classList.add('moveAway');
   link.style.transform = `translate(${xChange}px, ${yChange}px)`;
@@ -90,8 +92,6 @@ function playSound(type) {
     "https://www.pacdv.com/sounds/people_sound_effects/laugh_3.wav",
     "https://www.pacdv.com/sounds/people_sound_effects/laugh_4.wav",
     "https://www.pacdv.com/sounds/people_sound_effects/laugh_5.wav"]];
-
-  console.log('pf called with type of', type, 'isplaying', isPlaying);
 
   if (!isPlaying) {
     const random = Math.floor(Math.random() * sounds[soundMap[type]].length);
