@@ -1,12 +1,17 @@
 console.log('ext loaded');
-var audio = document.createElement('audio');
-var DEFAULT_VOLUME = 1.0;
-// var fart1 = new Audio();
-// fart1.src = chrome.extension.getURL("https://www.pacdv.com/sounds/fart-sounds/fart-1.wav");
+
+const audio = document.createElement('audio');
+let isPlaying = false;
+audio.addEventListener('ended', function() {
+  isPlaying = false;
+});
+document.body.appendChild(audio);
 
 const inputs = document.querySelectorAll("input");
 const body = document.querySelector("body");
-inputs.forEach(input => input.addEventListener("click", playSound()));
+
+//inputs.forEach(input => input.addEventListener("click", playSound("fart")));
+
 body.addEventListener("keydown", event => {
   if (event.keyCode === 70) {
     playSound("fart");
@@ -24,7 +29,7 @@ function playSound(type) {
     laugh: 2,
   }
 
-  sounds = [
+  const sounds = [
     //farts
     ["https://www.pacdv.com/sounds/fart-sounds/fart-1.wav",
     "https://www.pacdv.com/sounds/fart-sounds/fart-2.wav",
@@ -36,26 +41,25 @@ function playSound(type) {
     "https://www.pacdv.com/sounds/fart-sounds/fart-8.wav"],
     //burps
     ["https://www.pacdv.com/sounds/people_sound_effects/burp-1.wav",
-    "http://www.ruelpsen.com/ruelpser/www.ruelpsen.com - rawuelps_010.mp3",
-    "http://www.ruelpsen.com/ruelpser/www.ruelpsen.com%20-%20rawuelps_054.mp3",
-    "http://www.mountaincharlie1850.org/sounds/burp01.wav",
-    "http://netexpert.hu/~estevez/hangok/PEOPLE/MISC/BELCH03.WAV"
-    ],
+    "http://netexpert.hu/~estevez/hangok/PEOPLE/MISC/BELCH03.WAV"],
     //laughs
-    []]
-  console.log('pf called');
-  
-  var src = sounds[soundMap[type]][Math.floor(Math.random() * sounds[soundMap[type]].length)];
-  audio.volume = 1.0;
-  audio.src = src;
-  isPlaying = true;
+    ["https://www.pacdv.com/sounds/people_sound_effects/laugh_1.wav",
+    "https://www.pacdv.com/sounds/people_sound_effects/laugh_2.wav",
+    "https://www.pacdv.com/sounds/people_sound_effects/laugh_3.wav",
+    "https://www.pacdv.com/sounds/people_sound_effects/laugh_4.wav",
+    "https://www.pacdv.com/sounds/people_sound_effects/laugh_5.wav"]];
 
-  
-  audio.addEventListener('ended', function(evt) {
-    isPlaying = false;
-  });
-  document.body.appendChild(audio);
-  audio.autoplay = true;
+  console.log('pf called with type of', type, 'isplaying', isPlaying);
+
+  if (!isPlaying) {
+    const random = Math.floor(Math.random() * sounds[soundMap[type]].length);
+    const src = sounds[soundMap[type]][random];
+    audio.volume = 1.0;
+    audio.src = src;
+    console.log('play!')
+    isPlaying = true;
+    audio.autoplay = true;
+  }
 }
 
 

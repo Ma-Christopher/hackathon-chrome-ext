@@ -8,8 +8,5 @@
       "js": ["./main.js"]
     }
   ],
-  "description": "Plays random funny noises when certain events are triggered, also randomly trolls/scares users",
-  "web_accessible_resources": [
-    "https://www.pacdv.com/sounds/fart-sounds/fart-1.wav"
-  ]
+  "description": "Plays random funny noises when certain events are triggered, also randomly trolls/scares users"
 }
