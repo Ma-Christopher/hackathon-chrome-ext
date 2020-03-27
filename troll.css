@@ -7,3 +7,16 @@
   display: inline-block;
   transition: transform 1s cubic-bezier(0, 0.55, 0.45, 1);
 }
+
+.dance {
+  visibility: hidden;
+  position: fixed;
+  z-index: 1000000;
+  height: 100vh;
+  left: 50%;
+  margin-left: -50vh;
+}
+
+.show {
+  visibility: visible;
+}

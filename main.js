@@ -6,7 +6,12 @@ const body = document.querySelector("body");
 
 let linksToggle = false;
 
-const audio = document.createElement('audio');
+const danceTroll = document.createElement("img");
+danceTroll.classList.add("dance");
+danceTroll.src = "https://vignette.wikia.nocookie.net/meme/images/0/02/813.gif";
+body.prepend(danceTroll);
+
+const audio = document.createElement("audio");
 let isPlaying = false;
 audio.addEventListener('ended', function() {
   isPlaying = false;
@@ -15,8 +20,6 @@ body.appendChild(audio);
 
 //THIS WAS BREAKING THINGS
 //inputs.forEach(input => input.addEventListener("click", playSound("fart")));
-
-//links.forEach(link => link.addEventListener("mouseenter", (e) => moveLink(e)));
 
 body.addEventListener("keydown", event => {
   if (event.keyCode === 70) {
@@ -29,12 +32,20 @@ body.addEventListener("keydown", event => {
     if (!linksToggle) {
       console.log("runaway links is now ON!");
       linksToggle = true;
-      links.forEach(link => link.addEventListener("mouseenter", moveLink));
+      links.forEach(link => link.addEventListener("mouseover", moveLink));
     } else {
       console.log("runaway links is now OFF!");
-      links.forEach(link => link.removeEventListener("mouseenter", moveLink));
+      links.forEach(link => link.removeEventListener("mouseover", moveLink));
       linksToggle = false;
     }
+  } else if (event.keyCode === 84) {
+    trollDance();
+  }
+});
+
+body.addEventListener("keyup", event => {
+  if (event.keyCode === 84) {
+    trollHide();
   }
 });
 
@@ -55,15 +66,25 @@ function moveLink(event) {
   else
     yChange = Math.round(Math.random() * -101 - 150);
 
+  let degChange = Math.round(Math.random() * -721 + 360);
+
   link.classList.add('moveAway');
-  link.style.transform = `translate(${xChange}px, ${yChange}px)`;
+  link.style.transform = `translate(${xChange}px, ${yChange}px) rotate(${degChange}deg)`;
 }
 
 function resetPos(event) {
   const link = event.srcElement;
   link.classList.remove('moveAway');
   link.classList.add('moveBack');
-  link.style.transform = ``;
+  link.style.transform = 'none';
+}
+
+function trollDance() {
+  danceTroll.classList.add("show");
+}
+
+function trollHide() {
+  danceTroll.classList.remove("show");
 }
 
 function playSound(type) {
