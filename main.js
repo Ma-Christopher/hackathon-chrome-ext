@@ -1,16 +1,22 @@
 console.log('ext loaded');
 
+const inputs = document.querySelectorAll("input");
+const links = document.querySelectorAll("a");
+const body = document.querySelector("body");
+
 const audio = document.createElement('audio');
 let isPlaying = false;
 audio.addEventListener('ended', function() {
   isPlaying = false;
 });
-document.body.appendChild(audio);
+console.log('body', body);
+body.appendChild(audio);
 
-const inputs = document.querySelectorAll("input");
-const body = document.querySelector("body");
-
+//THIS WAS BREAKING THINGS
 //inputs.forEach(input => input.addEventListener("click", playSound("fart")));
+
+links.forEach(link => link.addEventListener("mouseenter", (e) => moveLink(e)));
+links.forEach(link => link.addEventListener("transitionend", (e) => resetPos(e)));
 
 body.addEventListener("keydown", event => {
   if (event.keyCode === 70) {
@@ -21,6 +27,35 @@ body.addEventListener("keydown", event => {
     playSound("laugh");
   }
 });
+
+function moveLink(event) {
+  console.log('attempted to move link');
+  const link = event.srcElement;
+  console.log('style', link.style);
+  let xChange;
+  let yChange;
+  if (Math.random() > .5)
+    xChange = Math.round(Math.random() * 101 + 50);
+  else
+    xChange = Math.round(Math.random() * -101 - 50);
+
+  if (Math.random() > .5) 
+    yChange = Math.round(Math.random() * 101 + 50);
+  else
+    yChange = Math.round(Math.random() * -101 - 50);
+
+  console.log('randomly generated', xChange, yChange);
+  console.log(link.style.transform);
+  link.classList.add('moveAway');
+  link.style.transform = `translate(${xChange}px, ${yChange}px)`;
+  console.log(`translate(${xChange}px, ${yChange}px)`);
+}
+
+function resetPos(event) {
+  const link = event.srcElement;
+  link.classList.remove('moveAway');
+  link.style.transform = ``;
+}
 
 function playSound(type) {
   const soundMap = {
