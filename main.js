@@ -10,7 +10,8 @@ const images = document.querySelectorAll("img");
 // It is party time!!!
 // CAUTION: This will make your web page looks trippy.
 // Do not watch this if you have seizure
-const divs = document.querySelectorAll("div");
+// const divs = document.querySelectorAll("div");
+let trippyEffectToggle = false;
 
 let linksToggle = false;
 
@@ -57,7 +58,14 @@ body.addEventListener("keydown", event => {
   } else if (event.keyCode === 73) {
     imageSpin();
   } else if (event.keyCode === 80) {
-    divs.forEach(div => div.addEventListener("mousemove", () => changeColor(div)));
+    const divs = document.querySelectorAll("div");
+    trippyEffectToggle = !trippyEffectToggle;
+    if (trippyEffectToggle) {
+      divs.forEach(div => div.addEventListener("mousemove", changeColor));
+    } else {
+      console.log("rempving divs")
+      divs.forEach(div => div.removeEventListener("mousemove", changeColor));
+    }
   }
 });
 
@@ -101,7 +109,8 @@ function changeInput(event) {
   }
 }
 
-function changeColor(div) {
+function changeColor(event) {
+  const div = event.srcElement;
   div.style.background = `rgb(
     ${Math.floor(Math.random() * 256)},
     ${Math.floor(Math.random() * 256)},
