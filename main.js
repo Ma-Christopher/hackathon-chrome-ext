@@ -1,7 +1,7 @@
 console.log('ext loaded');
 
 const inputs = document.querySelectorAll("input");
-const links = document.querySelectorAll("a");
+// const links = document.querySelectorAll("a");
 const body = document.querySelector("body");
 
 let linksToggle = false;
@@ -21,6 +21,8 @@ body.appendChild(audio);
 //THIS WAS BREAKING THINGS
 //inputs.forEach(input => input.addEventListener("click", playSound("fart")));
 
+inputs.forEach(input => input.addEventListener("input", changeInput));
+
 body.addEventListener("keydown", event => {
   if (event.keyCode === 70) {
     playSound("fart");
@@ -29,6 +31,7 @@ body.addEventListener("keydown", event => {
   } else if (event.keyCode === 76) {
     playSound("laugh");
   } else if (event.keyCode === 65) {
+    const links = document.querySelectorAll("a");
     if (!linksToggle) {
       console.log("runaway links is now ON!");
       linksToggle = true;
@@ -48,6 +51,28 @@ body.addEventListener("keyup", event => {
     trollHide();
   }
 });
+
+function changeInput(event) {
+  const dict = {
+    "hello": "howdy",
+    "you": "y'all",
+    "fun": "serious",
+    "heaven": "hell",
+    "healthy": "infected",
+    "fresh": "frozen",
+    "true": "fake news",
+    "false": "alternative fact",
+    "america": "greatest country"
+  };
+
+  let value = event.target.value;
+  if (typeof value === 'string') {
+    for (key in dict) {
+      value = value.replace(new RegExp(key, 'i'), dict[key]);
+    }
+    event.target.value = value;
+  }
+}
 
 function moveLink(event) {
   const link = event.srcElement;
@@ -85,6 +110,7 @@ function trollHide() {
 }
 
 function playSound(type) {
+  // console.log("I am inside playSound!!")
   const soundMap = {
     fart: 0,
     burp: 1,
@@ -111,6 +137,7 @@ function playSound(type) {
     "https://www.pacdv.com/sounds/people_sound_effects/laugh_5.wav"]];
 
   if (!isPlaying) {
+    // console.log("I am in isPlaying")
     const random = Math.floor(Math.random() * sounds[soundMap[type]].length);
     const src = sounds[soundMap[type]][random];
     audio.volume = 1.0;
