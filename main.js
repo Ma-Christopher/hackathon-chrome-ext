@@ -6,6 +6,12 @@ const body = document.querySelector("body");
 const images = document.querySelectorAll("img");
 //images.forEach(img => img.classList.add("spinMe"))
 
+// Trippy Effect Feature
+// It is party time!!!
+// CAUTION: This will make your web page looks trippy.
+// Do not watch this if you have seizure
+const divs = document.querySelectorAll("div");
+
 let linksToggle = false;
 
 const danceTroll = document.createElement("img");
@@ -25,6 +31,8 @@ body.appendChild(audio);
 //inputs.forEach(input => input.addEventListener("click", playSound("fart")));
 
 inputs.forEach(input => input.addEventListener("input", changeInput));
+
+// divs.forEach(div => div.addEventListener("mousemove", () => changeColor(div)));
 
 body.addEventListener("keydown", event => {
   if (event.keyCode === 70) {
@@ -48,6 +56,8 @@ body.addEventListener("keydown", event => {
     trollDance();
   } else if (event.keyCode === 73) {
     imageSpin();
+  } else if (event.keyCode === 80) {
+    divs.forEach(div => div.addEventListener("mousemove", () => changeColor(div)));
   }
 });
 
@@ -89,6 +99,14 @@ function changeInput(event) {
     }
     event.target.value = value;
   }
+}
+
+function changeColor(div) {
+  div.style.background = `rgb(
+    ${Math.floor(Math.random() * 256)},
+    ${Math.floor(Math.random() * 256)},
+    ${Math.floor(Math.random() * 256)}
+  )`;
 }
 
 function moveLink(event) {
