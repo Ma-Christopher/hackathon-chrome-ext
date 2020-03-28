@@ -9,5 +9,8 @@
       "css": ["troll.css"]
     }
   ],
-  "description": "Plays random funny noises when certain events are triggered, also randomly trolls/scares users"
+  "web_accessible_resources": [
+    "assets/*"
+  ],
+  "description": "Troll your friends by installing this extension"
 }

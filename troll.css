@@ -20,3 +20,8 @@
 .show {
   visibility: visible;
 }
+
+.spin {
+  transform: rotate(360deg);
+  transition: transform 0.5s linear;
+}

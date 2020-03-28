@@ -3,12 +3,15 @@ console.log('ext loaded');
 const inputs = document.querySelectorAll("input");
 // const links = document.querySelectorAll("a");
 const body = document.querySelector("body");
+const images = document.querySelectorAll("img");
+//images.forEach(img => img.classList.add("spinMe"))
 
 let linksToggle = false;
 
 const danceTroll = document.createElement("img");
 danceTroll.classList.add("dance");
-danceTroll.src = "https://vignette.wikia.nocookie.net/meme/images/0/02/813.gif";
+const troll = chrome.extension.getURL("assets/Dancing_Troll_gif.webp")
+danceTroll.src = troll;
 body.prepend(danceTroll);
 
 const audio = document.createElement("audio");
@@ -43,6 +46,8 @@ body.addEventListener("keydown", event => {
     }
   } else if (event.keyCode === 84) {
     trollDance();
+  } else if (event.keyCode === 73) {
+    imageSpin();
   }
 });
 
@@ -51,6 +56,18 @@ body.addEventListener("keyup", event => {
     trollHide();
   }
 });
+
+function imageSpin() {
+  for (let i = (Math.round(Math.random() * 4)); i < images.length; i += Math.round(Math.random() * 4)) {
+    images[i].addEventListener("transitionend", removeSpin);
+    images[i].classList.add("spin");
+  }
+}
+
+function removeSpin(event) {
+  const image = event.srcElement;
+  image.classList.remove("spin");
+}
 
 function changeInput(event) {
   const dict = {
@@ -91,7 +108,7 @@ function resetPos(event) {
   const link = event.srcElement;
   link.classList.remove('moveAway');
   link.classList.add('moveBack');
-  link.style.transform = 'none';
+  link.style.transform = '';
   link.removeEventListener("transitionend", resetPos);
   link.addEventListener("transitionend", finishReset);
 }
